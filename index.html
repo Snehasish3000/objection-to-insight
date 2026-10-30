@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10231f">
+  <meta name="description" content="A lightweight EdTech sales conversation practice and objection intelligence workspace.">
+  <title>Objection-to-Insight | Sales Conversation Lab</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#overview" aria-label="Objection-to-Insight home" data-nav="overview">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand-copy"><strong>objection<span>to</span>insight</strong><small>SALES CONVERSATION LAB</small></span>
+      </a>
+
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="nav-list">
+        <button class="nav-item is-active" type="button" data-nav="overview"><span class="nav-icon">◫</span><span>Overview</span></button>
+        <button class="nav-item" type="button" data-nav="practice"><span class="nav-icon">◎</span><span>Sales practice</span><span class="nav-pill">LAB</span></button>
+        <button class="nav-item" type="button" data-nav="intelligence"><span class="nav-icon">⌁</span><span>Objection insights</span></button>
+        <button class="nav-item" type="button" data-nav="records"><span class="nav-icon">▤</span><span>Conversation records</span></button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="offline-card"><span class="status-dot"></span><div><strong>Private workspace</strong><small>Saved in this browser</small></div></div>
+        <button class="nav-item settings-link" type="button" data-nav="settings"><span class="nav-icon">⚙</span><span>Settings & data</span></button>
+        <div class="sidebar-version">VERSION 1.0.0 <span>•</span> OFFLINE READY</div>
+      </div>
+    </aside>
+
+    <main class="main-shell">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><span class="crumb-sep">/</span><strong id="pageCrumb">Overview</strong></div>
+        <div class="topbar-right"><span class="live-indicator"><i></i> Local workspace</span><div class="avatar" aria-label="Sales practice workspace">OI</div></div>
+      </header>
+
+      <div class="demo-banner" id="demoBanner"><span class="demo-banner-icon">✦</span><span><strong>Demonstration workspace</strong> — all prospect and conversation data is fictional. Clear or replace it before entering real information.</span><button type="button" class="banner-close" id="dismissBanner" aria-label="Dismiss demonstration notice">×</button></div>
+
+      <!-- OVERVIEW -->
+      <section class="view is-visible" id="view-overview" aria-labelledby="overviewTitle">
+        <div class="page-heading heading-with-action">
+          <div><div class="eyebrow">YOUR SALES PRACTICE WORKSPACE</div><h1 id="overviewTitle">Turn conversations into <span class="text-accent">better next steps.</span></h1><p class="page-subtitle">Practice thoughtful responses, capture recurring objections and share useful patterns with your team.</p></div>
+          <button class="button button-primary" type="button" data-nav="practice"><span>＋</span> Start a practice round</button>
+        </div>
+
+        <div class="kpi-grid">
+          <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">OBJECTIONS LOGGED</span><span class="kpi-icon icon-violet">⌁</span></div><div class="kpi-value" id="kpiObjections">0</div><div class="kpi-foot">Conversation insight records</div></article>
+          <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">PRACTICE AVG.</span><span class="kpi-icon icon-mint">◎</span></div><div class="kpi-value" id="kpiPractice">—<small>/100</small></div><div class="kpi-foot" id="kpiPracticeFoot">Complete a practice round to begin</div></article>
+          <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">FOLLOW-UPS DUE</span><span class="kpi-icon icon-amber">◷</span></div><div class="kpi-value" id="kpiFollowups">0</div><div class="kpi-foot" id="kpiFollowupsFoot">Overdue and due today</div></article>
+          <article class="kpi-card"><div class="kpi-top"><span class="kpi-label">POSITIVE NEXT STEPS</span><span class="kpi-icon icon-blue">↗</span></div><div class="kpi-value" id="kpiPositive">0</div><div class="kpi-foot">Meetings booked or conversions</div></article>
+        </div>
+
+        <div class="content-grid overview-grid">
+          <article class="panel category-panel">
+            <div class="panel-heading"><div><div class="eyebrow">WHAT PROSPECTS ARE SAYING</div><h2>Top objection themes</h2></div><button class="text-button" type="button" data-nav="intelligence">View insights <span>→</span></button></div>
+            <div id="overviewCategories" class="mini-bars"></div>
+            <div class="panel-note"><span class="note-dot"></span> Based on objection records in this workspace.</div>
+          </article>
+          <article class="panel followup-panel">
+            <div class="panel-heading"><div><div class="eyebrow">KEEP THE MOMENTUM</div><h2>Follow-up watchlist</h2></div><button class="text-button" type="button" data-nav="records">All records <span>→</span></button></div>
+            <div id="overviewFollowups" class="followup-list"></div>
+          </article>
+        </div>
+
+        <div class="content-grid lower-grid">
+          <article class="panel recent-panel">
+            <div class="panel-heading"><div><div class="eyebrow">LATEST ACTIVITY</div><h2>Recent conversations</h2></div><button class="text-button" type="button" data-nav="records">Open records <span>→</span></button></div>
+            <div class="table-wrap"><table class="data-table"><thead><tr><th>PROSPECT</th><th>OBJECTION THEME</th><th>OUTCOME</th><th>DATE</th></tr></thead><tbody id="overviewRecent"></tbody></table></div>
+          </article>
+          <article class="panel insight-callout">
+            <div class="sparkle-orb">✳</div><div class="eyebrow">A SMALL HABIT, BIG LEARNING</div><h2>Capture the reason behind the hesitation.</h2><p>A useful objection record includes the prospect's concern, the response offered and the next agreed action. Patterns become more valuable when notes are specific and respectful.</p><button class="button button-dark" type="button" data-nav="records">Log a conversation <span>→</span></button>
+          </article>
+        </div>
+      </section>
+
+      <!-- PRACTICE -->
+      <section class="view" id="view-practice" aria-labelledby="practiceTitle" hidden>
+        <div class="page-heading"><div><div class="eyebrow">COMMUNICATION & NEGOTIATION LAB</div><h1 id="practiceTitle">Make your next response <span class="text-accent">more intentional.</span></h1><p class="page-subtitle">Work through realistic EdTech conversations. The CARE checklist helps you review your own response — no AI scoring or external service.</p></div></div>
+        <div class="practice-layout">
+          <div class="practice-main">
+            <article class="panel scenario-panel">
+              <div class="panel-heading"><div><div class="eyebrow">ROUND 01 · CHOOSE A SCENARIO</div><h2>Your prospect's perspective</h2></div><span class="soft-badge">SIMULATION</span></div>
+              <div class="scenario-select-row"><label class="field-label" for="scenarioSelect">Practice scenario</label><select id="scenarioSelect" class="field-control"></select><button class="button button-outline button-small" id="randomScenario" type="button">↻ Surprise me</button></div>
+              <div class="scenario-card" id="scenarioCard"></div>
+            </article>
+
+            <article class="panel response-panel">
+              <div class="panel-heading"><div><div class="eyebrow">YOUR TURN</div><h2>Write your response</h2></div><span class="word-count" id="responseWordCount">0 words</span></div>
+              <label for="practiceResponse" class="sr-only">Write how you would respond to the prospect</label>
+              <textarea id="practiceResponse" class="response-input" rows="6" maxlength="1800" placeholder="Acknowledge the concern, ask a useful question, connect a relevant and verified value point, then agree on a next step..."></textarea>
+              <div class="response-helper"><span>Tip: Aim for a clear, human response — not a memorised sales script.</span><span id="responseCharCount">0 / 1800</span></div>
+              <div id="practiceTruthGuard" class="truth-guard is-quiet" aria-live="polite"><span class="guard-icon">✓</span><div><strong>TruthGuard is clear</strong><small>No configured absolute-claim phrases detected in this draft.</small></div></div>
+            </article>
+
+            <article class="panel care-panel">
+              <div class="panel-heading"><div><div class="eyebrow">SELF-REVIEW FRAMEWORK</div><h2>The CARE checklist</h2><p class="panel-subtitle">Tick each principle only when your response genuinely includes it.</p></div><div class="care-score"><strong id="careScore">0</strong><span>/ 100</span></div></div>
+              <div class="care-grid">
+                <label class="care-item"><input type="checkbox" data-care="confirm"><span class="care-letter">C</span><span class="care-copy"><strong>Confirm</strong><small>Acknowledge the concern without dismissing it.</small><em id="careHintConfirm">Not reviewed</em></span></label>
+                <label class="care-item"><input type="checkbox" data-care="ask"><span class="care-letter">A</span><span class="care-copy"><strong>Ask</strong><small>Ask a question to understand the real need.</small><em id="careHintAsk">Not reviewed</em></span></label>
+                <label class="care-item"><input type="checkbox" data-care="relate"><span class="care-letter">R</span><span class="care-copy"><strong>Relate</strong><small>Connect only a relevant, verifiable benefit.</small><em id="careHintRelate">Not reviewed</em></span></label>
+                <label class="care-item"><input type="checkbox" data-care="establish"><span class="care-letter">E</span><span class="care-copy"><strong>Establish</strong><small>Agree on a specific, low-pressure next step.</small><em id="careHintEstablish">Not reviewed</em></span></label>
+              </div>
+              <div class="care-foot"><span id="careFeedback">Your self-review score will appear here.</span><span>25 points per principle</span></div>
+              <div class="practice-actions"><button class="button button-primary" id="savePractice" type="button">Save practice round <span>→</span></button><button class="button button-ghost" id="resetPractice" type="button">Reset response</button><button class="button button-outline" id="logPracticeInsight" type="button" disabled>Log as an insight</button></div>
+              <div id="practiceMessage" class="inline-message" role="status" aria-live="polite"></div>
+            </article>
+          </div>
+
+          <aside class="practice-aside">
+            <article class="panel coach-panel"><div class="eyebrow">THE CARE METHOD</div><h2>Four moves. One thoughtful conversation.</h2><div class="coach-step"><span>C</span><div><strong>Confirm</strong><p>“I understand why that matters to your team.”</p></div></div><div class="coach-step"><span>A</span><div><strong>Ask</strong><p>“Which outcome is most important for your students?”</p></div></div><div class="coach-step"><span>R</span><div><strong>Relate</strong><p>Connect the need to a verified programme detail.</p></div></div><div class="coach-step"><span>E</span><div><strong>Establish</strong><p>“Would a short information call next week help?”</p></div></div><div class="coach-disclaimer">Examples are practice prompts, not approved company claims. Verify programme details before sharing them.</div></article>
+            <article class="panel practice-history-panel"><div class="panel-heading"><div><div class="eyebrow">YOUR PROGRESS</div><h2>Recent practice</h2></div><span class="history-count" id="practiceCount">0 rounds</span></div><div id="practiceHistory" class="practice-history"></div></article>
+            <article class="truth-guard-info"><div class="guard-info-icon">◇</div><div><strong>TruthGuard reminder</strong><p>It flags configured absolute-claim phrases for review. It does not verify facts, assess legal compliance or replace approved company material.</p></div></article>
+          </aside>
+        </div>
+      </section>
+
+      <!-- INTELLIGENCE -->
+      <section class="view" id="view-intelligence" aria-labelledby="intelligenceTitle" hidden>
+        <div class="page-heading heading-with-action"><div><div class="eyebrow">SALES + MARKETING LEARNING LOOP</div><h1 id="intelligenceTitle">Listen for patterns. <span class="text-accent">Share what matters.</span></h1><p class="page-subtitle">A practical view of recurring concerns and conversation outcomes captured by your team.</p></div><button class="button button-primary" id="exportInsights" type="button">↓ Export insight brief</button></div>
+        <div class="insight-summary-grid"><article class="insight-stat"><span class="stat-label">MOST REPEATED THEME</span><strong id="topTheme">Not enough data</strong><small id="topThemeCount">Log conversations to identify a pattern.</small></article><article class="insight-stat"><span class="stat-label">MOST COMMON CHANNEL</span><strong id="topChannel">—</strong><small id="topChannelCount">Based on saved records.</small></article><article class="insight-stat"><span class="stat-label">FOLLOW-UP RATE</span><strong id="followupRate">0%</strong><small>Records with a follow-up date</small></article></div>
+        <div class="content-grid intelligence-grid">
+          <article class="panel chart-panel"><div class="panel-heading"><div><div class="eyebrow">RECURRING CONCERNS</div><h2>Objections by theme</h2></div><span class="soft-badge">ALL RECORDS</span></div><div id="categoryChart" class="horizontal-chart"></div></article>
+          <article class="panel chart-panel"><div class="panel-heading"><div><div class="eyebrow">WHAT HAPPENED NEXT</div><h2>Conversation outcomes</h2></div></div><div id="outcomeChart" class="horizontal-chart"></div></article>
+        </div>
+        <article class="panel marketing-panel"><div class="panel-heading"><div><div class="eyebrow">TURN PATTERNS INTO ACTION</div><h2>Ideas for Sales & Marketing</h2><p class="panel-subtitle">Suggested actions are generated from your recorded objection categories. Review them before sharing.</p></div><span class="soft-badge soft-badge-green">TEAM LEARNING</span></div><div id="marketingIdeas" class="marketing-ideas"></div><div class="marketing-footer"><span>Use aggregated themes; avoid sharing personal contact details in team briefs.</span><button class="text-button" id="exportInsightsBottom" type="button">Download brief <span>↓</span></button></div></article>
+        <div class="data-caveat"><span>ⓘ</span><p><strong>Interpretation note:</strong> these charts describe only the records entered in this browser. They are descriptive counts, not statistically representative market research or evidence of product performance.</p></div>
+      </section>
+
+      <!-- RECORDS -->
+      <section class="view" id="view-records" aria-labelledby="recordsTitle" hidden>
+        <div class="page-heading heading-with-action"><div><div class="eyebrow">CONVERSATION MEMORY</div><h1 id="recordsTitle">Every objection has <span class="text-accent">context.</span></h1><p class="page-subtitle">Record the concern, your response and the next step. Keep notes factual, brief and respectful.</p></div><button class="button button-primary" type="button" id="addRecordTop">＋ Add conversation</button></div>
+        <div class="records-toolbar"><div class="search-wrap"><span>⌕</span><label class="sr-only" for="recordSearch">Search conversation records</label><input id="recordSearch" type="search" placeholder="Search prospect, concern or response..."></div><label class="sr-only" for="categoryFilter">Filter by objection theme</label><select id="categoryFilter" class="field-control filter-control"><option value="all">All themes</option></select><label class="sr-only" for="outcomeFilter">Filter by outcome</label><select id="outcomeFilter" class="field-control filter-control"><option value="all">All outcomes</option></select><button class="button button-outline button-small" id="clearFilters" type="button">Clear filters</button></div>
+        <article class="panel records-panel"><div class="panel-heading"><div><h2>Conversation records</h2><p class="panel-subtitle" id="recordCountLabel">0 records</p></div><button class="text-button" id="exportRecords" type="button">Export CSV <span>↓</span></button></div><div class="table-wrap"><table class="data-table records-table"><thead><tr><th>PROSPECT / PERSONA</th><th>OBJECTION</th><th>CHANNEL</th><th>OUTCOME</th><th>FOLLOW-UP</th><th class="align-right">ACTIONS</th></tr></thead><tbody id="recordsTableBody"></tbody></table></div><div id="recordsEmpty" class="empty-state" hidden><div class="empty-icon">▤</div><strong>No matching conversations</strong><p>Add a record or adjust your search and filters.</p><button class="button button-outline button-small" type="button" id="addRecordEmpty">Add first conversation</button></div></article>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="view" id="view-settings" aria-labelledby="settingsTitle" hidden>
+        <div class="page-heading"><div><div class="eyebrow">WORKSPACE CONTROLS</div><h1 id="settingsTitle">Your data. <span class="text-accent">Your browser.</span></h1><p class="page-subtitle">Manage local records, create backups and understand the application's boundaries.</p></div></div>
+        <div class="settings-grid">
+          <article class="panel settings-card"><div class="settings-icon icon-violet">↓</div><h2>Export a full backup</h2><p>Download conversation records, practice history and workspace settings as a JSON file.</p><button class="button button-primary" id="exportBackup" type="button">Download JSON backup</button></article>
+          <article class="panel settings-card"><div class="settings-icon icon-blue">↑</div><h2>Restore a backup</h2><p>Replace this browser's workspace with a backup previously exported from Objection-to-Insight.</p><input class="sr-only" type="file" id="restoreFile" accept="application/json,.json"><button class="button button-outline" id="restoreBackup" type="button">Choose backup file</button></article>
+          <article class="panel settings-card"><div class="settings-icon icon-mint">▧</div><h2>Export conversation data</h2><p>Download a spreadsheet-friendly CSV of conversation records for offline review.</p><button class="button button-outline" id="exportRecordsSettings" type="button">Export records CSV</button></article>
+          <article class="panel settings-card"><div class="settings-icon icon-amber">✳</div><h2>Load demonstration data</h2><p>Replace the current workspace with fictional sample conversations and practice examples.</p><button class="button button-outline" id="loadDemo" type="button">Replace with demo workspace</button></article>
+        </div>
+        <article class="panel boundaries-panel"><div class="panel-heading"><div><div class="eyebrow">PLEASE READ BEFORE USING</div><h2>Privacy, storage & responsible use</h2></div><span class="soft-badge">LOCAL-FIRST</span></div><div class="boundary-list"><div><span>01</span><p><strong>Browser-only storage.</strong> Records are kept in LocalStorage on this browser and device. They do not sync across users or computers. Clearing browser data may remove them; export backups regularly.</p></div><div><span>02</span><p><strong>No automatic outreach.</strong> The app does not call, email or message prospects. It does not scrape contacts or connect to an external CRM.</p></div><div><span>03</span><p><strong>TruthGuard is a phrase flagger.</strong> It checks a small configurable list of absolute-claim phrases. It is not an AI fact-checker, legal review or guarantee that other statements are accurate.</p></div><div><span>04</span><p><strong>Use approved information.</strong> Do not promise placements, salaries, certifications or outcomes unless the exact claim is approved and supported by official company material.</p></div><div><span>05</span><p><strong>Protect personal information.</strong> Use fictional or appropriately authorised demo data. Do not store sensitive personal, financial or student information in this prototype.</p></div></div></article>
+        <article class="panel danger-panel"><div><div class="eyebrow">DESTRUCTIVE ACTION</div><h2>Clear this workspace</h2><p>Remove all conversation records and practice history from this browser. This cannot be undone unless you have a backup.</p></div><button class="button button-danger" id="clearWorkspace" type="button">Clear all local data</button></article>
+        <div id="settingsMessage" class="inline-message" role="status" aria-live="polite"></div>
+      </section>
+
+      <footer class="app-footer"><span>OBJECTION-TO-INSIGHT <b>•</b> BUILT FOR BETTER CONVERSATIONS</span><span>Static prototype · No external services</span></footer>
+    </main>
+  </div>
+
+  <!-- ADD / EDIT CONVERSATION MODAL -->
+  <div class="modal-backdrop" id="recordModal" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header"><div><div class="eyebrow">CONVERSATION INTELLIGENCE</div><h2 id="modalTitle">Add a conversation</h2><p>Capture the concern and agree on a useful next step.</p></div><button class="modal-close" type="button" id="closeRecordModal" aria-label="Close dialog">×</button></div>
+      <form id="recordForm">
+        <input type="hidden" id="recordId">
+        <div class="form-grid">
+          <label class="form-field"><span>Prospect / institution <b>*</b></span><input class="field-control" id="recordProspect" maxlength="100" required placeholder="e.g. Northview Institute"></label>
+          <label class="form-field"><span>Contact role / persona</span><input class="field-control" id="recordPersona" maxlength="80" placeholder="e.g. Placement Coordinator"></label>
+          <label class="form-field"><span>Objection theme <b>*</b></span><select class="field-control" id="recordCategory" required></select></label>
+          <label class="form-field"><span>Communication channel</span><select class="field-control" id="recordChannel"><option>Call</option><option>Email</option><option>WhatsApp</option><option>Meeting</option><option>Social media</option><option>Other</option></select></label>
+          <label class="form-field full-field"><span>Prospect's concern <b>*</b></span><textarea class="field-control" id="recordObjection" rows="3" maxlength="700" required placeholder="Record the concern in neutral, factual language..."></textarea></label>
+          <label class="form-field full-field"><span>Response provided</span><textarea class="field-control" id="recordResponse" rows="3" maxlength="900" placeholder="What did you explain or agree to share?"></textarea><small id="recordTruthWarning" class="form-warning" hidden></small></label>
+          <label class="form-field"><span>Conversation outcome</span><select class="field-control" id="recordOutcome"></select></label>
+          <label class="form-field"><span>Conversation date</span><input class="field-control" id="recordDate" type="date" required></label>
+          <label class="form-field"><span>Next follow-up date</span><input class="field-control" id="recordFollowup" type="date"></label>
+          <label class="form-field"><span>Next action</span><input class="field-control" id="recordNextAction" maxlength="140" placeholder="e.g. Share approved programme overview"></label>
+        </div>
+        <div class="modal-footer"><span class="required-note"><b>*</b> Required fields</span><div><button class="button button-ghost" type="button" id="cancelRecord">Cancel</button><button class="button button-primary" type="submit" id="saveRecord">Save conversation</button></div></div>
+        <div class="form-message" id="recordFormMessage" role="alert"></div>
+      </form>
+    </section>
+  </div>
+  <div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
